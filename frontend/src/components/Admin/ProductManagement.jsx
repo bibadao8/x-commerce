@@ -3,6 +3,14 @@ import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from 'react-redux'
 import { fetchAdminProducts, deleteProduct } from '../../redux/slices/adminProductSlice'
 
+// Helper function
+const normalizeImageUrl = (url) => {
+  if (!url) return '/placeholder.png'
+  if (url.startsWith('http')) return url
+  if (url.startsWith('/')) return url
+  return `/${url}`
+}
+
 const ProductManagement = () => {
     const dispatch = useDispatch()
     const { products, loading, error } = useSelector((state) => state.adminProducts)
@@ -27,6 +35,7 @@ const ProductManagement = () => {
                 <table className="min-w-full text-sm text-gray-700">
                     <thead className="bg-gray-100 text-xs uppercase tracking-wider text-gray-600">
                         <tr>
+                            <th className="py-4 px-6 text-left">Image</th>
                             <th className="py-4 px-6 text-left">Name</th>
                             <th className="py-4 px-6 text-left">Price</th>
                             <th className="py-4 px-6 text-left">SKU</th>
@@ -40,6 +49,17 @@ const ProductManagement = () => {
                                     key={product._id}
                                     className="border-t hover:bg-gray-50 transition duration-150"
                                 >
+                                    <td className="py-4 px-6">
+                                        <img
+                                            src={normalizeImageUrl(product.images?.[0]?.url)}
+                                            onError={(e) => { 
+                                                e.currentTarget.src = '/placeholder.png'; 
+                                                e.currentTarget.onerror = null; 
+                                            }}
+                                            alt={product.name}
+                                            className="w-16 h-16 object-cover rounded-md"
+                                        />
+                                    </td>
                                     <td className="py-4 px-6 font-medium text-gray-900">
                                         {product.name}
                                     </td>
@@ -67,7 +87,7 @@ const ProductManagement = () => {
                             ))
                         ) : (
                             <tr>
-                                <td colSpan={4} className="py-6 px-4 text-center text-gray-500">
+                                <td colSpan={5} className="py-6 px-4 text-center text-gray-500">
                                     No products found.
                                 </td>
                             </tr>

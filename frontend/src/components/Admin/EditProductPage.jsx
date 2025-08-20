@@ -1,8 +1,16 @@
 import { useEffect, useState } from "react";
 import { useDispatch } from 'react-redux'
 import { useParams, useNavigate } from 'react-router-dom'
-import { updateProduct } from '../../redux/slices/productSlice'
+import { updateProduct } from '../../redux/slices/adminProductSlice'  // ✅ Đổi từ productSlice sang adminProductSlice
 import axios from 'axios'
+
+// Helper function
+const normalizeImageUrl = (url) => {
+  if (!url) return '/placeholder.png'
+  if (url.startsWith('http')) return url
+  if (url.startsWith('/')) return url
+  return `/${url}`
+}
 
 const EditProductPage = () => {
     const dispatch = useDispatch()
@@ -52,9 +60,67 @@ const EditProductPage = () => {
         setProductData((prevData) => ({ ...prevData, [name]: value }));
     };
 
+    // ✅ Hoàn thiện upload ảnh
     const handleImageUpload = async (e) => {
         const file = e.target.files[0];
-        console.log(file);
+        if (!file) return;
+        
+        // Kiểm tra kích thước file (max 5MB)
+        if (file.size > 5 * 1024 * 1024) {
+            alert('File size must be less than 5MB');
+            return;
+        }
+        
+        // Kiểm tra định dạng file
+        const allowedTypes = ['image/jpeg', 'image/png', 'image/jpg', 'image/webp'];
+        if (!allowedTypes.includes(file.type)) {
+            alert('Only JPEG, PNG, JPG, and WebP files are allowed');
+            return;
+        }
+        
+        try {
+            const formData = new FormData();
+            formData.append('image', file);
+            
+            const response = await axios.post(
+                `${import.meta.env.VITE_BACKEND_URL}/api/upload`,
+                formData,
+                {
+                    headers: {
+                        'Content-Type': 'multipart/form-data',
+                        Authorization: `Bearer ${localStorage.getItem('userToken') || ''}`
+                    }
+                }
+            );
+            
+            if (response.data.imageUrl) {
+                // Thêm ảnh mới vào danh sách
+                setProductData(prev => ({
+                    ...prev,
+                    images: [...prev.images, { 
+                        url: response.data.imageUrl,
+                        altText: file.name 
+                    }]
+                }));
+            } else {
+                throw new Error('No image URL returned');
+            }
+        } catch (error) {
+            console.error('Upload failed:', error);
+            if (error.response?.status === 500) {
+                alert('Upload service is not configured. Please contact administrator.');
+            } else {
+                alert('Failed to upload image. Please try again.');
+            }
+        }
+    };
+
+    // ✅ Xóa ảnh
+    const handleRemoveImage = (index) => {
+        setProductData(prev => ({
+            ...prev,
+            images: prev.images.filter((_, i) => i !== index)
+        }));
     };
 
     const handleSubmit = async (e) => {
@@ -163,6 +229,32 @@ const EditProductPage = () => {
                     />
                 </div>
 
+                {/* Current Images */}
+                <div className="mb-6">
+                    <label className="block font-semibold mb-2">Current Images</label>
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                        {productData.images.map((image, index) => (
+                            <div key={index} className="relative">
+                                <img
+                                    src={normalizeImageUrl(image.url)}
+                                    alt={image.altText || `Product image ${index + 1}`}
+                                    className="w-full h-24 object-cover rounded border"
+                                    onError={(e) => {
+                                        e.target.src = '/placeholder.png';
+                                    }}
+                                />
+                                <button
+                                    type="button"
+                                    onClick={() => handleRemoveImage(index)}
+                                    className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-sm hover:bg-red-600"
+                                >
+                                    ×
+                                </button>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+
                 {/* Image Upload */}
                 <div className="mb-6">
                     <label className="block font-semibold mb-2">Upload Image</label>
@@ -176,18 +268,30 @@ const EditProductPage = () => {
                         <input
                             id="file-upload"
                             type="file"
+                            accept="image/*"
                             onChange={handleImageUpload}
                             className="hidden"
                         />
                     </div>
-                    <div className="flex gap-4 mt-4">
+                    <div className="flex gap-4 mt-4 flex-wrap">
                         {productData.images.map((image, index) => (
-                            <div key={index}>
+                            <div key={index} className="relative">
                                 <img
-                                    src={image.url}
+                                    src={normalizeImageUrl(image.url)}
+                                    onError={(e) => { 
+                                        e.currentTarget.src = '/placeholder.png'; 
+                                        e.currentTarget.onerror = null; 
+                                    }}
                                     alt={image.altText || "Product Image"}
                                     className="w-20 h-20 object-cover rounded-md shadow-md"
                                 />
+                                <button
+                                    type="button"
+                                    onClick={() => handleRemoveImage(index)}
+                                    className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs hover:bg-red-600"
+                                >
+                                    ×
+                                </button>
                             </div>
                         ))}
                     </div>
