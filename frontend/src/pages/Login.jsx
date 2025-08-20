@@ -43,7 +43,7 @@ const Login = () => {
                     className='w-full max-w-md bg-white p-8 rounded-lg shadow-2xl transform transition-transform duration-500 ease-in-out hover:scale-105'
                 >
                     <div className='flex justify-center mb-6'>
-                        <h2 className='text-xl font-medium'>Trendora</h2>
+                        <h2 className='text-xl font-medium'>X-Commerce</h2>
                     </div>
                     <h2 className='text-2xl font-bold text-center mb-6'>Hey there!👋</h2>
                     <p className='text-center mb-6'>Enter your username and password to login</p>

@@ -25,7 +25,7 @@ const PORT = process.env.PORT || 3000;
 connectDB();
 
 app.get("/", (req, res) => {
-    res.send("welcome to trendora api")
+    res.send("welcome to x-commerce api")
 })
 
 //api routes
