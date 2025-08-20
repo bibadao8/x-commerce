@@ -30,7 +30,7 @@ const ProductDetails = ({ productId }) => {
 
     useEffect(() => {
         if (selectedProduct?.images?.length > 0) {
-            setMainImage(selectedProduct.images[0]?.url)
+            setMainImage(selectedProduct.images[0]?.url || '/placeholder.png')
         }
     }, [selectedProduct])
 
@@ -80,7 +80,9 @@ const ProductDetails = ({ productId }) => {
             <div className='flex flex-col md:flex-row'>
                 <div className='hidden md:flex flex-col space-y-4 mr-6'>
                     {selectedProduct.images.map((image, index) => (
-                        <img key={index} src={image.url} alt={image.altText || `Thumbnail ${index}`}
+                        <img key={index} src={image.url || '/placeholder.png'}
+                            onError={(e) => { e.currentTarget.src = '/placeholder.png'; e.currentTarget.onerror = null; }}
+                            alt={image.altText || `Thumbnail ${index}`}
                             className={`w-20 h-20 object-cover rounded-lg cursor-pointer border ${mainImage === image.url ? "border-black border-2" : "border-gray-300"}`}
                             onClick={() => setMainImage(image.url)}
                         />
@@ -88,14 +90,19 @@ const ProductDetails = ({ productId }) => {
                 </div>
                 <div className='md:w-1/2'>
                     <div className='mb-4'>
-                        <img src={mainImage} alt="Main Product"
+                        <img 
+                            src={mainImage || '/placeholder.png'} 
+                            onError={(e) => { e.currentTarget.src = '/placeholder.png'; e.currentTarget.onerror = null; }}
+                            alt="Main Product"
                             className='w-full h-auto object-cover rounded-lg'
                         />
                     </div>
                 </div>
                 <div className='md:hidden flex overscroll-x-scroll space-x-4 mb-4'>
                     {selectedProduct.images.map((image, index) => (
-                        <img key={index} src={image.url} alt={image.altText || `Thumbnail ${index}`}
+                        <img key={index} src={image.url || '/placeholder.png'}
+                            onError={(e) => { e.currentTarget.src = '/placeholder.png'; e.currentTarget.onerror = null; }}
+                            alt={image.altText || `Thumbnail ${index}`}
                             className={`w-20 h-20 object-cover rounded-lg cursor-pointer border ${mainImage === image.url ? "border-black border-2" : "border-gray-300"}`}
                             onClick={() => setMainImage(image.url)}
                         />

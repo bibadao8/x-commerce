@@ -16,7 +16,7 @@ const products = [
     gender: "Men",
     images: [
       {
-        url: "/public/img1.jpg",
+        url: "img1.jpg",
         altText: "Classic Oxford Button-Down Shirt Front View",
       },
     ],
@@ -40,7 +40,7 @@ const products = [
     gender: "Men",
     images: [
       {
-        url: "/public/img2.jpg",
+        url: "img2.jpg",
         altText: "Slim-Fit Stretch Shirt Front View",
       },
     ],
@@ -64,7 +64,7 @@ const products = [
     gender: "Men",
     images: [
       {
-        url: "/public/img3.jpg",
+        url: "img3.jpg",
         altText: "Casual Denim Shirt Front View",
       },
     ],
@@ -88,7 +88,7 @@ const products = [
     gender: "Men",
     images: [
       {
-        url: "/public/img4.jpg",
+        url: "img4.jpg",
         altText: "Printed Resort Shirt Front View",
       },
     ],
@@ -112,7 +112,7 @@ const products = [
     gender: "Men",
     images: [
       {
-        url: "/public/img5.jpg",
+        url: "img5.jpg",
         altText: "Slim-Fit Easy-Iron Shirt Front View",
       },
     ],
@@ -136,7 +136,7 @@ const products = [
     gender: "Men",
     images: [
       {
-        url: "/public/img6.jpg",
+        url: "img6.jpg",
         altText: "Polo T-Shirt Front View",
       },
     ],
@@ -160,7 +160,7 @@ const products = [
     gender: "Men",
     images: [
       {
-        url: "/public/img7.jpg",
+        url: "img7.jpg",
         altText: "Oversized Graphic T-Shirt Front View",
       },
     ],
@@ -184,7 +184,7 @@ const products = [
     gender: "Men",
     images: [
       {
-        url: "/public/img8.jpg",
+        url: "img8.jpg",
         altText: "Regular-Fit Henley Shirt Front View",
       },
     ],
@@ -208,7 +208,7 @@ const products = [
     gender: "Men",
     images: [
       {
-        url: "/public/img9.jpg",
+        url: "img9.jpg",
         altText: "Long-Sleeve Thermal Tee Front View",
       },
     ],
@@ -232,7 +232,7 @@ const products = [
     gender: "Men",
     images: [
       {
-        url: "/public/img10.jpg",
+        url: "img10.jpg",
         altText: "V-Neck T-Shirt Front View",
       },
     ],
@@ -256,7 +256,7 @@ const products = [
     gender: "Men",
     images: [
       {
-        url: "/public/img11.jpg",
+        url: "img11.jpg",
         altText: "Fitted Stretch Polo Front View",
       },
     ],
@@ -280,7 +280,7 @@ const products = [
     gender: "Men",
     images: [
       {
-        url: "/public/img12.jpg",
+        url: "img12.jpg",
         altText: "Classic Rugby Shirt Front View",
       },
     ],
@@ -304,7 +304,7 @@ const products = [
     gender: "Men",
     images: [
       {
-        url: "/public/img13.jpg",
+        url: "img13.jpg",
         altText: "Layered Knit Hoodie Front View",
       },
     ],
@@ -328,7 +328,7 @@ const products = [
     gender: "Men",
     images: [
       {
-        url: "/public/img14.jpg",
+        url: "img14.jpg",
         altText: "Tech Jacket Front View",
       },
     ],
@@ -352,7 +352,7 @@ const products = [
     gender: "Men",
     images: [
       {
-        url: "/public/img15.jpg",
+        url: "img15.jpg",
         altText: "Windbreaker Jacket Front View",
       },
     ],
