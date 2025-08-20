@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { normalizeImageUrl } from '../../utils/imageUtils';
 
 const ProductGrid = ({ products, loading, error }) => {
     if (loading) {
@@ -17,8 +18,11 @@ const ProductGrid = ({ products, loading, error }) => {
                     <div className='bg-white p-4 rounded'>
                         <div className='w-full h-96 mb-4 overflow-hidden rounded-lg'>
                             <img
-                                src={product.images?.[0]?.url?.startsWith('http') ? product.images[0].url : (product.images?.[0]?.url || '/placeholder.png')}
-                                onError={(e) => { e.currentTarget.src = '/placeholder.png'; e.currentTarget.onerror = null; }}
+                                src={normalizeImageUrl(product.images?.[0]?.url)}
+                                onError={(e) => { 
+                                    e.currentTarget.src = '/placeholder.png'; 
+                                    e.currentTarget.onerror = null; 
+                                }}
                                 alt={product.images?.[0]?.altText || product.name}
                                 className='w-full h-full object-cover transform transition-transform duration-300 ease-in-out hover:scale-105'
                             />

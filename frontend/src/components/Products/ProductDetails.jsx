@@ -5,6 +5,7 @@ import { useParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { fetchProductDetails, fetchSimilarProducts } from '../../redux/slices/productSlice'
 import { addToCart } from '../../redux/slices/cartSlice'
+import { normalizeImageUrl } from '../../utils/imageUtils'
 
 const ProductDetails = ({ productId }) => {
     const { id } = useParams()
@@ -30,7 +31,7 @@ const ProductDetails = ({ productId }) => {
 
     useEffect(() => {
         if (selectedProduct?.images?.length > 0) {
-            setMainImage(selectedProduct.images[0]?.url || '/placeholder.png')
+            setMainImage(normalizeImageUrl(selectedProduct.images[0]?.url))
         }
     }, [selectedProduct])
 
@@ -80,11 +81,16 @@ const ProductDetails = ({ productId }) => {
             <div className='flex flex-col md:flex-row'>
                 <div className='hidden md:flex flex-col space-y-4 mr-6'>
                     {selectedProduct.images.map((image, index) => (
-                        <img key={index} src={image.url || '/placeholder.png'}
-                            onError={(e) => { e.currentTarget.src = '/placeholder.png'; e.currentTarget.onerror = null; }}
+                        <img 
+                            key={index} 
+                            src={normalizeImageUrl(image.url)} 
+                            onError={(e) => { 
+                                e.currentTarget.src = '/placeholder.png'; 
+                                e.currentTarget.onerror = null; 
+                            }}
                             alt={image.altText || `Thumbnail ${index}`}
-                            className={`w-20 h-20 object-cover rounded-lg cursor-pointer border ${mainImage === image.url ? "border-black border-2" : "border-gray-300"}`}
-                            onClick={() => setMainImage(image.url)}
+                            className={`w-20 h-20 object-cover rounded-lg cursor-pointer border ${mainImage === normalizeImageUrl(image.url) ? "border-black border-2" : "border-gray-300"}`}
+                            onClick={() => setMainImage(normalizeImageUrl(image.url))}
                         />
                     ))}
                 </div>
@@ -92,7 +98,10 @@ const ProductDetails = ({ productId }) => {
                     <div className='mb-4'>
                         <img 
                             src={mainImage || '/placeholder.png'} 
-                            onError={(e) => { e.currentTarget.src = '/placeholder.png'; e.currentTarget.onerror = null; }}
+                            onError={(e) => { 
+                                e.currentTarget.src = '/placeholder.png'; 
+                                e.currentTarget.onerror = null; 
+                            }}
                             alt="Main Product"
                             className='w-full h-auto object-cover rounded-lg'
                         />
@@ -100,11 +109,16 @@ const ProductDetails = ({ productId }) => {
                 </div>
                 <div className='md:hidden flex overscroll-x-scroll space-x-4 mb-4'>
                     {selectedProduct.images.map((image, index) => (
-                        <img key={index} src={image.url || '/placeholder.png'}
-                            onError={(e) => { e.currentTarget.src = '/placeholder.png'; e.currentTarget.onerror = null; }}
+                        <img 
+                            key={index} 
+                            src={normalizeImageUrl(image.url)} 
+                            onError={(e) => { 
+                                e.currentTarget.src = '/placeholder.png'; 
+                                e.currentTarget.onerror = null; 
+                            }}
                             alt={image.altText || `Thumbnail ${index}`}
-                            className={`w-20 h-20 object-cover rounded-lg cursor-pointer border ${mainImage === image.url ? "border-black border-2" : "border-gray-300"}`}
-                            onClick={() => setMainImage(image.url)}
+                            className={`w-20 h-20 object-cover rounded-lg cursor-pointer border ${mainImage === normalizeImageUrl(image.url) ? "border-black border-2" : "border-gray-300"}`}
+                            onClick={() => setMainImage(normalizeImageUrl(image.url))}
                         />
                     ))}
                 </div>
