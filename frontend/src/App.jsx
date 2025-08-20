@@ -18,6 +18,7 @@ import UserManagement from './components/Admin/UserManagement'
 import ProductManagement from './components/Admin/ProductManagement'
 import EditProductPage from './components/Admin/EditProductPage'
 import OrderManagement from './components/Admin/OrderManagement'
+import ChatWidget from './components/Chat/ChatWidget'  // ✅ Thêm import
 
 import { Provider } from "react-redux"
 import store from "./redux/store"
@@ -49,6 +50,9 @@ const App = () => {
             <Route path='orders' element={<OrderManagement />} />
           </Route>
         </Routes>
+        
+        {/* Chat Widget - chỉ hiển thị ở user pages, không hiển thị ở admin */}
+        <ChatWidget />
       </BrowserRouter>
     </Provider>
   )
