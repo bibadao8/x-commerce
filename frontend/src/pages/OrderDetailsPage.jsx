@@ -2,6 +2,14 @@ import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import axios from 'axios'
 
+// Helper function để chuẩn hóa URL ảnh
+const normalizeImageUrl = (url) => {
+  if (!url) return '/placeholder.png'
+  if (url.startsWith('http')) return url
+  if (url.startsWith('/')) return url
+  return `/${url}`
+}
+
 const OrderDetailsPage = () => {
     const { id } = useParams();
     const [orderDetails, setOrderDetails] = useState(null);
@@ -80,7 +88,11 @@ const OrderDetailsPage = () => {
                                         <tr key={item.productID} className="border-t hover:bg-gray-50">
                                             <td className="py-3 px-5 flex items-center gap-4">
                                                 <img
-                                                    src={item.image}
+                                                    src={normalizeImageUrl(item.image)}
+                                                    onError={(e) => { 
+                                                        e.currentTarget.src = '/placeholder.png'; 
+                                                        e.currentTarget.onerror = null; 
+                                                    }}
                                                     alt={item.name}
                                                     className="w-12 h-12 rounded-md object-cover"
                                                 />
